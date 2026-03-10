@@ -4,6 +4,7 @@ import com.example.lab.exception.InvalidPriceRangeException;
 
 import com.example.lab.exception.ResourceNotFoundException;
 import com.example.lab.model.Product;
+import com.example.lab.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,12 +29,37 @@ public class ProductService {
         }
         return product;
     }
-    public Product update(String name,Double price,String description,Integer quantity){
-        if(products.containsKey(name)) {
-            Product product=new Product(name,price,description,quantity);
-            return products.put(name,product);
+    public Product fullUpdate(String name,Double price,String category,Integer quantity){
+        Product product =findByName(name);
+        if(product == null){
+            throw new ResourceNotFoundException("Cannot update. Product not found with name: " + name);
         }
-        return null;
+        product.setName(name);
+        product.setPrice(price);
+        product.setQuantity(quantity);
+        product.setCategory(category);
+        return product;
+    }
+    public Product partialUpdate(String name,Double price,String category,Integer quantity){
+        Product product =findByName(name);
+        if(product == null){
+            throw new ResourceNotFoundException("Cannot update. Product not found with name: " + name);
+        }
+        if(name!=null){
+            product.setName(name);
+        }
+        if(price!=null)
+        {
+            product.setPrice(product.getPrice());
+        }
+        if(category!=null)
+        {
+            product.setCategory(category);
+        }
+        if(quantity!=null){
+            product.setQuantity(quantity);
+        }
+        return product;
     }
     public void delete(String name){
         if(!products.containsKey(name)){

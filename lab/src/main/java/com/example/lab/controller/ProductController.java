@@ -46,9 +46,14 @@ public class ProductController {
         return productService.findByRange(min,max);
     }
     @PutMapping("{name}")
-    public Product update(@RequestHeader(value = "API-Key", required = false) String apiKey,@PathVariable String name,@Valid @RequestBody Product product){
+    public Product fullUpdate(@RequestHeader(value = "API-Key", required = false) String apiKey,@PathVariable String name,@Valid @RequestBody Product product){
         checkApiKey(apiKey);
-        return productService.update(product.getName(),product.getPrice(), product.getCategory(), product.getQuantity());
+        return productService.fullUpdate(product.getName(),product.getPrice(), product.getCategory(), product.getQuantity());
+    }
+    @PatchMapping("{name}")
+    public Product partialUpdate(@RequestHeader(value = "API-Key", required = false) String apiKey,@PathVariable String name, @RequestBody Product product){
+        checkApiKey(apiKey);
+        return productService.partialUpdate(product.getName(),product.getPrice(), product.getCategory(), product.getQuantity());
     }
     @DeleteMapping("{name}")
     public ResponseEntity<Void> delete(@RequestHeader(value = "API-Key", required = false) String apiKey,@PathVariable String name){

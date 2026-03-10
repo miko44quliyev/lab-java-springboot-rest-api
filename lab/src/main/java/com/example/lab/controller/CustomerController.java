@@ -40,9 +40,19 @@ public class CustomerController {
     }
 
     @PutMapping("/{email}")
-    public Customer update(@Valid @PathVariable String email,
+    public Customer fullUpdate(@Valid @PathVariable String email,
                                    @RequestBody Customer customer){
-        return customerService.update(
+        return customerService.fullUpdate(
+                email,
+                customer.getName(),
+                customer.getAge(),
+                customer.getAddress()
+        );
+    }
+    @PatchMapping("/{email}")
+    public Customer partialUpdate( @PathVariable String email,
+                                   @RequestBody Customer customer){
+        return customerService.fullUpdate(
                 email,
                 customer.getName(),
                 customer.getAge(),

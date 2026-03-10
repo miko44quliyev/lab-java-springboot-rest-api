@@ -30,10 +30,31 @@ public class CustomerService {
         return customer;
     }
 
-    public Customer update(String email, String name, Integer age, String address){
-        Customer customer = customers.get(email);
+    public Customer fullUpdate(String email, String name, Integer age, String address){
+        Customer customer =findByEmail(email);
         if(customer == null){
             throw new ResourceNotFoundException("Cannot update. Customer not found with email: " + email);
+        }
+        customer.setName(name);
+        customer.setAge(age);
+        customer.setAddress(address);
+        return customer;
+    }
+    public Customer partialUpdate(String email, String name, Integer age, String address){
+        Customer customer =findByEmail(email);
+        if(customer == null){
+            throw new ResourceNotFoundException("Cannot update. Customer not found with email: " + email);
+        }
+        if(name!=null){
+            customer.setName(name);
+        }
+        if(age!=null)
+        {
+            customer.setAge(age);
+        }
+        if(address!=null)
+        {
+            customer.setAddress(address);
         }
         return customer;
     }
